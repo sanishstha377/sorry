@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nirjala ❤️ - I'm Sorry</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+    :root {
+      --bg-dark: #14000d;
+      --bg-pink: #7a004b;
+      --card-bg: #f6efe6;
+      --text-main: #4a3531;
+      --accent: #d9264e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #9c005c 0%, #3d0024 45%, #0a0006 100%);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+      color: var(--text-main);
+    }
+
+    /* Floating background bokeh hearts */
+    .bg-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bg-heart {
+      position: absolute;
+      bottom: -40px;
+      color: rgba(255, 77, 148, 0.25);
+      animation: floatUp linear infinite;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.3) rotate(25deg);
+        opacity: 0;
+      }
+    }
+
+    /* App Title Header */
+    .app-header {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-shadow: 0 0 15px rgba(255, 80, 150, 0.8);
+      text-align: center;
+    }
+
+    /* Main Cream Card */
+    .love-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 860px;
+      background: var(--card-bg);
+      border-radius: 26px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 25px rgba(255, 60, 140, 0.25);
+      padding: 24px 24px 18px;
+      overflow: hidden;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 360px;
+    }
+
+    /* Left Message Section */
+    .message-box {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 3;
+      padding-right: 6px;
+    }
+
+    .dear-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .apology-text {
+      font-size: 0.96rem;
+      line-height: 1.65;
+      color: #4f3a36;
+      min-height: 145px;
+      white-space: pre-line;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Forgive Me Interactive Buttons */
+    .forgive-box {
+      margin-top: 14px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.6s ease;
+      pointer-events: none;
+    }
+
+    .forgive-box.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .forgive-question {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #b51d43;
+      margin-bottom: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      position: relative;
+    }
+
+    .btn {
+      border: none;
+      padding: 9px 18px;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ff3366, #d91b4c);
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(217, 27, 76, 0.35);
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.06);
+    }
+
+    .btn-no {
+      background: #e3d5cc;
+      color: #5a433e;
+      position: relative;
+    }
+
+    .accepted-msg {
+      display: none;
+      margin-top: 10px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.55rem;
+      color: #d91b4c;
+      animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Right Tree Canvas Section */
+    .tree-box {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      position: relative;
+      min-height: 300px;
+    }
+
+    canvas#loveTree {
+      width: 100%;
+      max-width: 390px;
+      height: auto;
+      display: block;
+    }
+
+    /* Bottom Ground Line & Timer (Matches Screenshot) */
+    .bottom-section {
+      border-top: 2px solid #2b211f;
+      padding-top: 10px;
+      margin-top: -2px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .timer-label {
+      font-size: 0.85rem;
+      color: #5c4641;
+      margin-bottom: 3px;
+    }
+
+    .timer-clock {
+      font-size: 1.05rem;
+      color: #3a2623;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    .timer-clock span.num {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #241614;
+    }
+
+    /* Mobile Responsive Layout */
+    @media (max-width: 700px) {
+      .love-card {
+        padding: 18px 16px 14px;
+      }
+
+      .card-body {
+        flex-direction: column;
+        gap: 6px;
+        min-height: auto;
+      }
+
+      .dear-title {
+        font-size: 1.75rem;
+      }
+
+      .apology-text {
+        font-size: 0.9rem;
+        min-height: 110px;
+      }
+
+      .tree-box {
+        min-height: 250px;
+      }
+
+      .timer-clock {
+        font-size: 0.9rem;
+      }
+
+      .timer-clock span.num {
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Background Hearts -->
+  <div class="bg-hearts" id="bgHearts"></div>
+
+  <!-- App Header -->
+  <div class="app-header">For Nirjala ❤️</div>
+
+  <!-- Main Card -->
+  <div class="love-card">
+    <div class="card-body">
+      <!-- Apology Message -->
+      <div class="message-box">
+        <div>
+          <div class="dear-title">Dear Nirjala,</div>
+          <div class="apology-text" id="apologyText"><span class="cursor"></span></div>
+        </div>
+
+        <div class="forgive-box" id="forgiveBox">
+          <div class="forgive-question">Will you forgive me, my love? 🥺</div>
+          <div class="btn-group">
+            <button class="btn btn-yes" id="yesBtn">Yes, I forgive you ❤️</button>
+            <button class="btn btn-no" id="noBtn">Still angry 😠</button>
+          </div>
+          <div class="accepted-msg" id="acceptedMsg">
+            Yay! Thank you, Nirjala! I love you endlessly! 💖✨
+          </div>
+        </div>
+      </div>
+
+      <!-- Heart Tree Animation -->
+      <div class="tree-box">
+        <canvas id="loveTree" width="420" height="380"></canvas>
+      </div>
+    </div>
+
+    <!-- Bottom Love Timer -->
+    <div class="bottom-section">
+      <div class="timer-label">My love for you started...</div>
+      <div class="timer-clock" id="loveTimer">
+        <span class="num">0</span> days
+        <span class="num">00</span> hours
+        <span class="num">00</span> minutes
+        <span class="num">00</span> seconds
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. CUSTOMIZE YOUR DATE & MESSAGE HERE
+    // ==========================================
+    // Change this to the date you & Nirjala got together (YYYY-MM-DDTHH:MM:SS)
+    const START_DATE = new Date("2025-11-24T00:00:00");
+
+    const apologyMessage =
+      "I am really, truly sorry for hurting you and making you upset.\n\n" +
+      "You mean everything to me, Nirjala. Seeing you sad breaks my heart, and I never want to be the reason behind your tears.\n\n" +
+      "Please forgive my mistake. I promise to listen better, care more, and love you with all my heart every single day.";
+
+    // ==========================================
+    // 2. FLOATING BACKGROUND HEARTS
+    // ==========================================
+    const bgContainer = document.getElementById("bgHearts");
+    for (let i = 0; i < 22; i++) {
+      const heart = document.createElement("div");
+      heart.className = "bg-heart";
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 14 + Math.random() * 26 + "px";
+      heart.style.animationDuration = 6 + Math.random() * 9 + "s";
+      heart.style.animationDelay = Math.random() * 6 + "s";
+      bgContainer.appendChild(heart);
+    }
+
+    // ==========================================
+    // 3. TYPEWRITER APOLOGY EFFECT
+    // ==========================================
+    const textEl = document.getElementById("apologyText");
+    const forgiveBox = document.getElementById("forgiveBox");
+    let charIndex = 0;
+
+    function typeWriter() {
+      if (charIndex < apologyMessage.length) {
+        const currentText = apologyMessage.slice(0, charIndex + 1);
+        textEl.innerHTML = currentText.replace(/\n/g, "<br>") + '<span class="cursor"></span>';
+        charIndex++;
+        const delay = apologyMessage[charIndex - 1] === "\n" ? 260 : 32;
+        setTimeout(typeWriter, delay);
+      } else {
+        textEl.innerHTML = apologyMessage.replace(/\n/g, "<br>");
+        forgiveBox.classList.add("show");
+      }
+    }
+    setTimeout(typeWriter, 600);
+
+    // ==========================================
+    // 4. INTERACTIVE FORGIVENESS BUTTONS
+    // ==========================================
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const acceptedMsg = document.getElementById("acceptedMsg");
+    let noCount = 0;
+
+    function moveNoButton() {
+      noCount++;
+      if (noCount >= 5) {
+        noBtn.textContent = "Okay fine... ❤️";
+        noBtn.style.transform = "translate(0, 0)";
+        noBtn.onclick = acceptApology;
+        return;
+      }
+      const x = (Math.random() - 0.5) * 140;
+      const y = (Math.random() - 0.5) * 60;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    function acceptApology() {
+      acceptedMsg.style.display = "block";
+      noBtn.style.display = "none";
+      yesBtn.textContent = "I Love You Nirjala ❤️";
+      // Burst extra falling hearts on tree!
+      for (let i = 0; i < 35; i++) {
+        spawnFallingLeaf(true);
+      }
+    }
+    yesBtn.addEventListener("click", acceptApology);
+
+    // ==========================================
+    // 5. LIVE LOVE TIMER
+    // ==========================================
+    function updateTimer() {
+      const now = new Date();
+      let diff = Math.max(0, Math.floor((now - START_DATE) / 1000));
+
+      const days = Math.floor(diff / 86400);
+      diff %= 86400;
+      const hours = Math.floor(diff / 3600);
+      diff %= 3600;
+      const minutes = Math.floor(diff / 60);
+      const seconds = diff % 60;
+
+      const pad = (n) => String(n).padStart(2, "0");
+
+      document.getElementById("loveTimer").innerHTML = `
+        <span class="num">${days}</span> days
+        <span class="num">${pad(hours)}</span> hours
+        <span class="num">${pad(minutes)}</span> minutes
+        <span class="num">${pad(seconds)}</span> seconds
+      `;
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // ==========================================
+    // 6. CANVAS HEART TREE ANIMATION
+    // ==========================================
+    const canvas = document.getElementById("loveTree");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const leafColors = [
+      "#d90429", "#ef233c", "#ff4d6d", "#ff758f",
+      "#ff8fa3", "#c9184a", "#a4133c", "#ffccd5"
+    ];
+
+    function drawHeart(x, y, size, angle, color, alpha = 1) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      const s = size;
+      ctx.moveTo(0, -s * 0.2);
+      ctx.bezierCurveTo(-s * 0.25, -s * 0.6, -s * 0.75, -s * 0.35, -s * 0.5, s * 0.05);
+      ctx.bezierCurveTo(-s * 0.35, s * 0.35, 0, s * 0.5, 0, s * 0.65);
+      ctx.bezierCurveTo(0, s * 0.5, s * 0.35, s * 0.35, s * 0.5, s * 0.05);
+      ctx.bezierCurveTo(s * 0.75, -s * 0.35, s * 0.25, -s * 0.6, 0, -s * 0.2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Generate leaves inside a heart shape
+    const canopyCenterX = W * 0.55;
+    const canopyCenterY = H * 0.40;
+    const canopyScale = 122;
+    const targetLeaves = [];
+
+    while (targetLeaves.length < 480) {
+      const hx = (Math.random() * 2.6) - 1.3;
+      const hy = (Math.random() * 2.4) - 1.1;
+      // Implicit heart formula: (x^2 + y^2 - 1)^3 - x^2 * y^3 <= 0
+      const eq = Math.pow(hx * hx + hy * hy - 1, 3) - (hx * hx * Math.pow(hy, 3));
+      if (eq <= 0) {
+        targetLeaves.push({
+          x: canopyCenterX + hx * canopyScale + (Math.random() - 0.5) * 8,
+          y: canopyCenterY - hy * canopyScale + (Math.random() - 0.5) * 8,
+          size: 7 + Math.random() * 9,
+          maxSize: 7 + Math.random() * 9,
+          scale: 0,
+          angle: (Math.random() - 0.5) * 0.8,
+          color: leafColors[Math.floor(Math.random() * leafColors.length)]
+        });
+      }
+    }
+
+    // Falling heart petals
+    const fallingLeaves = [];
+    function spawnFallingLeaf(burst = false) {
+      const startX = burst
+        ? canopyCenterX + (Math.random() - 0.5) * 180
+        : canopyCenterX + (Math.random() - 0.8) * 140;
+      const startY = burst
+        ? canopyCenterY + (Math.random() - 0.5) * 140
+        : canopyCenterY + (Math.random() - 0.3) * 100;
+
+      fallingLeaves.push({
+        x: startX,
+        y: startY,
+        vx: -0.7 - Math.random() * 1.1,
+        vy: 0.7 + Math.random() * 1.0,
+        size: 7 + Math.random() * 6,
+        angle: Math.random() * Math.PI,
+        spin: (Math.random() - 0.5) * 0.05,
+        color: leafColors[Math.floor(Math.random() * leafColors.length)],
+        alpha: 1
+      });
+    }
+
+    // Trunk & Branches growth progress
+    let trunkProgress = 0;
+    let bloomIndex = 0;
+
+    function drawTreeStructure(progress) {
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#7b4b2a";
+
+      // Main Trunk
+      const trunkTopY = H - (H - (canopyCenterY + 55)) * Math.min(1, progress);
+      ctx.beginPath();
+      ctx.moveTo(canopyCenterX - 6, H);
+      ctx.quadraticCurveTo(canopyCenterX - 2, H - 70, canopyCenterX, trunkTopY);
+      ctx.lineWidth = 18 - progress * 8;
+      ctx.stroke();
+
+      // Secondary fill for sturdy base
+      ctx.fillStyle = "#7b4b2a";
+      ctx.beginPath();
+      ctx.moveTo(canopyCenterX - 18, H);
+      ctx.quadraticCurveTo(canopyCenterX - 8, H - 55, canopyCenterX - 5, trunkTopY + 10);
+      ctx.lineTo(canopyCenterX + 7, trunkTopY + 10);
+      ctx.quadraticCurveTo(canopyCenterX + 8, H - 55, canopyCenterX + 18, H);
+      ctx.closePath();
+      ctx.fill();
+
+      // Branches appear once trunk passes 60%
+      if (progress > 0.6) {
+        const bp = Math.min(1, (progress - 0.6) / 0.4);
+        const branches = [
+          { sx: canopyCenterX, sy: canopyCenterY + 60, ex: canopyCenterX - 55, ey: canopyCenterY - 15, w: 6 },
+          { sx: canopyCenterX, sy: canopyCenterY + 55, ex: canopyCenterX + 55, ey: canopyCenterY - 10, w: 6 },
+          { sx: canopyCenterX - 25, sy: canopyCenterY + 25, ex: canopyCenterX - 80, ey: canopyCenterY - 40, w: 4 },
+          { sx: canopyCenterX + 25, sy: canopyCenterY + 20, ex: canopyCenterX + 85, ey: canopyCenterY - 35, w: 4 },
+          { sx: canopyCenterX, sy: canopyCenterY + 40, ex: canopyCenterX - 5, ey: canopyCenterY - 45, w: 5 }
+        ];
+
+        branches.forEach((b) => {
+          ctx.beginPath();
+          ctx.moveTo(b.sx, b.sy);
+          ctx.lineTo(b.sx + (b.ex - b.sx) * bp, b.sy + (b.ey - b.sy) * bp);
+          ctx.lineWidth = b.w;
+          ctx.stroke();
+        });
+      }
+    }
+
+    let frame = 0;
+    function animateTree() {
+      ctx.clearRect(0, 0, W, H);
+      frame++;
+
+      if (trunkProgress < 1) {
+        trunkProgress += 0.02;
+      }
+
+      drawTreeStructure(trunkProgress);
+
+      // Bloom leaves after trunk grows
+      if (trunkProgress >= 0.9 && bloomIndex < targetLeaves.length) {
+        bloomIndex = Math.min(targetLeaves.length, bloomIndex + 7);
+      }
+
+      for (let i = 0; i < bloomIndex; i++) {
+        const leaf = targetLeaves[i];
+        if (leaf.scale < 1) {
+          leaf.scale = Math.min(1, leaf.scale + 0.08);
+        }
+        drawHeart(leaf.x, leaf.y, leaf.size * leaf.scale, leaf.angle, leaf.color);
+      }
+
+      // Periodically spawn falling petals once tree blooms
+      if (bloomIndex >= targetLeaves.length && frame % 28 === 0) {
+        spawnFallingLeaf(false);
+      }
+
+      // Animate falling petals
+      for (let i = fallingLeaves.length - 1; i >= 0; i--) {
+        const fl = fallingLeaves[i];
+        fl.x += fl.vx + Math.sin(frame * 0.05 + i) * 0.35;
+        fl.y += fl.vy;
+        fl.angle += fl.spin;
+        if (fl.y > H - 25) fl.alpha -= 0.04;
+
+        drawHeart(fl.x, fl.y, fl.size, fl.angle, fl.color, Math.max(0, fl.alpha));
+
+        if (fl.alpha <= 0 || fl.x < -20 || fl.y > H + 10) {
+          fallingLeaves.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animateTree);
+    }
+
+    animateTree();
+  </script>
+</body>
+</html>
